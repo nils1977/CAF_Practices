@@ -1,6 +1,6 @@
 # CAF_Practices#
 
-1 - Simple Function Evaluator -> folder: exercise_one
+1 - Simple Function Evaluator -> folder: SimpleFunctionEvaluator
 
 2 - Simple Chat
 
