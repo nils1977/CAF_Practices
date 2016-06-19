@@ -25,7 +25,7 @@ behavior functionEvaluator(event_based_actor* self, int a0, int a1, int a2, int 
     return {
         [=](const double& request) -> double {
             cout << "--> inside actor 'functionEvaluator' <--" << endl;
-            int result = v0 * pow(request, 4) + v1 * pow(request, 3) + v2 * pow(request, 2) + v3 * request + v4;
+            double result = v0 * pow(request, 4) + v1 * pow(request, 3) + v2 * pow(request, 2) + v3 * request + v4;
             self->quit();
             return result;
         }
