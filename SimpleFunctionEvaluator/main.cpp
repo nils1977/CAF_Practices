@@ -13,6 +13,8 @@
 using namespace std;
 using namespace caf;
 
+using calc_atom = atom_constant<atom("calc")>;
+
 // this actor/method evaluates the required function
 behavior functionEvaluator(event_based_actor* self, int a0, int a1, int a2, int a3, int a4) {
 
@@ -23,9 +25,13 @@ behavior functionEvaluator(event_based_actor* self, int a0, int a1, int a2, int 
     double v4 = static_cast< double >(a4);
 
     return {
-        [=](const double& request) -> double {
+        [=](calc_atom, const double& request) -> double {
             cout << "--> inside actor 'functionEvaluator' <--" << endl;
-            double result = v0 * pow(request, 4) + v1 * pow(request, 3) + v2 * pow(request, 2) + v3 * request + v4;
+            double result = 0.0;
+
+            cout << "function evalution can be done, because the right atom is send." << endl;
+            result = v0 * pow(request, 4) + v1 * pow(request, 3) + v2 * pow(request, 2) + v3 * request + v4;
+
             self->quit();
             return result;
         }
@@ -39,8 +45,8 @@ void print_evaluator(event_based_actor* self, const actor& buddy) {
     double x = 0;
     cout << "Enter one Double-type-number: ";
     cin >> x;
-    // sending a-parameters to our buddy
-    self->sync_send(buddy,x).then(
+    // sending X(Double)-parameter to our buddy
+    self->sync_send(buddy, calc_atom::value, x).then(
         // wait for response
         [=](const double& result) {
             //printing result
@@ -53,6 +59,7 @@ void print_evaluator(event_based_actor* self, const actor& buddy) {
 int main()
 {
     int a0, a1, a2, a3, a4;
+    //atom_value calc = atom("calc");
 
     cout << "You have started this 'Simple Function Evaluator'" << endl;
     cout << "Enter 5 Integer-numbers with whitespaces in between the numbers: ";
