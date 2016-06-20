@@ -32,7 +32,7 @@ behavior functionEvaluator(event_based_actor* self, int a0, int a1, int a2, int 
             cout << "function evalution can be done, because the right atom is send." << endl;
             result = v0 * pow(request, 4) + v1 * pow(request, 3) + v2 * pow(request, 2) + v3 * request + v4;
 
-            self->quit();
+            //self->quit();
             return result;
         }
     };
@@ -41,7 +41,6 @@ behavior functionEvaluator(event_based_actor* self, int a0, int a1, int a2, int 
 // this actor/method reads value X, sends X to the functionEvaluator, waits for result
 // and then prints the result
 void print_evaluator(event_based_actor* self, const actor& buddy) {
-
     double x = 0;
     cout << "Enter one Double-type-number: ";
     cin >> x;
@@ -52,6 +51,10 @@ void print_evaluator(event_based_actor* self, const actor& buddy) {
             //printing result
             cout << "Result Y of the function evaluation: ";
             cout << result << endl;
+
+            // reading next value of X, for this an actor of himself is created,
+            // for handling the 'functionEvaluator'- actor another time
+            spawn(print_evaluator, buddy);
         }
     );
 }
